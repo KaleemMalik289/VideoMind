@@ -107,6 +107,12 @@ class Settings(BaseSettings):
     SUMMARY_STYLE: str = "professional"
     SUMMARY_LANGUAGE: str = "auto"
 
+    # Notes Settings
+    NOTES_STYLE: str = "detailed"
+    NOTES_LANGUAGE: str = "auto"
+    NOTES_MAX_TOKENS: int = 4096
+    NOTES_TEMPERATURE: float = 0.2
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
