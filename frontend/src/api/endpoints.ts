@@ -1,0 +1,16 @@
+export const ENDPOINTS = {
+  VIDEOS: '/videos',
+  VIDEO_BY_ID: (id: string) => `/videos/${id}`,
+  VIDEO_STATUS: (id: string) => `/videos/${id}/status`,
+  VIDEO_SUMMARY: (id: string) => `/videos/${id}/summary`,
+  VIDEO_NOTES: (id: string) => `/videos/${id}/notes`,
+  VIDEO_TRANSCRIPT: (id: string) => `/videos/${id}/transcript`,
+  VIDEO_OCR: (id: string) => `/videos/${id}/ocr`,
+  VIDEO_CODE: (id: string) => `/videos/${id}/code`,
+  VIDEO_QUIZ: (id: string) => `/videos/${id}/quiz`,
+  VIDEO_EXPORT: (id: string) => `/videos/${id}/export`,
+  VIDEO_EXPORT_DOWNLOAD: (id: string, exportId: string) => `/videos/${id}/exports/${exportId}`,
+  SEARCH: '/search',
+  AUTH_REGISTER: '/auth/register',
+  AUTH_LOGIN: '/auth/login',
+};
