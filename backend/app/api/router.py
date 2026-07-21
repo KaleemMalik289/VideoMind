@@ -1,7 +1,27 @@
-from fastapi import APIRouter
-from app.modules.upload import router as upload_router
+from fastapi import APIRouter, Depends
+from app.api.auth import get_current_user
+from app.api.routers import (
+    health,
+    upload,
+    youtube,
+    status,
+    summary,
+    notes,
+    transcript,
+    ocr,
+    code,
+    download
+)
 
-api_router = APIRouter()
+api_router = APIRouter(dependencies=[Depends(get_current_user)])
 
-# Register the upload routes under /api/v1/upload
-api_router.include_router(upload_router.router, prefix="/upload", tags=["upload"])
+api_router.include_router(health.router)
+api_router.include_router(upload.router)
+api_router.include_router(youtube.router)
+api_router.include_router(status.router)
+api_router.include_router(summary.router)
+api_router.include_router(notes.router)
+api_router.include_router(transcript.router)
+api_router.include_router(ocr.router)
+api_router.include_router(code.router)
+api_router.include_router(download.router)
