@@ -41,6 +41,19 @@ class Settings(BaseSettings):
     OUTPUT_IMAGE_WIDTH: int = 1280
     OUTPUT_IMAGE_HEIGHT: int = 720
 
+    # Preprocessing Settings
+    PREPROCESS_ENABLE_RESIZE: bool = True
+    PREPROCESS_ENABLE_DENOISE: bool = True
+    PREPROCESS_ENABLE_SHARPEN: bool = True
+    PREPROCESS_ENABLE_CONTRAST: bool = True
+    PREPROCESS_ENABLE_THRESHOLD: bool = False
+    PREPROCESS_ENABLE_ROTATION: bool = False
+    
+    PREPROCESS_IMAGE_WIDTH: int = 1920
+    PREPROCESS_IMAGE_HEIGHT: int = 1080
+    PREPROCESS_CLAHE_CLIP_LIMIT: float = 2.0
+    PREPROCESS_OUTPUT_QUALITY: int = 95
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
