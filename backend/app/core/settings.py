@@ -21,6 +21,17 @@ class Settings(BaseSettings):
     # Redis/Celery
     REDIS_URL: str = "redis://localhost:6379/0"
 
+    # Upload Settings
+    MAX_UPLOAD_SIZE: int = 2 * 1024 * 1024 * 1024  # 2GB
+    ALLOWED_VIDEO_EXTENSIONS: list[str] = [".mp4", ".mov", ".avi", ".mkv", ".webm"]
+    ALLOWED_MIME_TYPES: list[str] = [
+        "video/mp4",
+        "video/quicktime",
+        "video/x-msvideo",
+        "video/x-matroska",
+        "video/webm",
+    ]
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
