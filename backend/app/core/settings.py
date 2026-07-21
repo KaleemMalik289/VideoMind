@@ -82,6 +82,12 @@ class Settings(BaseSettings):
     REMOVE_DUPLICATE_OCR: bool = True
     REMOVE_DUPLICATE_TRANSCRIPT: bool = True
 
+    # Chunking Settings
+    MAX_CHUNK_TOKENS: int = 3000
+    MIN_CHUNK_TOKENS: int = 1500
+    CHUNK_OVERLAP_SECONDS: float = 5.0
+    ENABLE_CONTEXT_OVERLAP: bool = True
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
