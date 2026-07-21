@@ -61,6 +61,14 @@ class Settings(BaseSettings):
     OCR_CONFIDENCE_THRESHOLD: float = 0.30
     OCR_ENABLE_ANGLE_CLASSIFIER: bool = True
 
+    # Audio Settings
+    AUDIO_SAMPLE_RATE: int = 16000
+    AUDIO_CHANNELS: int = 1
+    AUDIO_FORMAT: str = "wav"
+    AUDIO_BIT_DEPTH: str = "pcm_s16le"
+    FFMPEG_PATH: str = "ffmpeg"
+    FFPROBE_PATH: str = "ffprobe"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
