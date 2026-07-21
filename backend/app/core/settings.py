@@ -77,6 +77,11 @@ class Settings(BaseSettings):
     WHISPER_BEAM_SIZE: int = 5
     WHISPER_VAD_FILTER: bool = True
 
+    # Timeline Settings
+    TIMELINE_SYNC_WINDOW: float = 2.0
+    REMOVE_DUPLICATE_OCR: bool = True
+    REMOVE_DUPLICATE_TRANSCRIPT: bool = True
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
