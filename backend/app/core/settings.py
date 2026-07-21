@@ -113,6 +113,12 @@ class Settings(BaseSettings):
     NOTES_MAX_TOKENS: int = 4096
     NOTES_TEMPERATURE: float = 0.2
 
+    # Code Settings
+    CODE_VALIDATE_SYNTAX: bool = True
+    CODE_OUTPUT_MARKDOWN: bool = True
+    CODE_OUTPUT_SOURCE: bool = True
+    CODE_LANGUAGE_AUTO_DETECT: bool = True
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
