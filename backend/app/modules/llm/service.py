@@ -33,6 +33,12 @@ class LLMService:
         }
 
     @staticmethod
+    def generate_single(system_prompt: str, user_prompt: str) -> tuple[str, int]:
+        """Runs a single prompt against the configured LLM provider directly."""
+        provider = ProviderFactory.get_provider()
+        return provider.generate(system_prompt, user_prompt)
+
+    @staticmethod
     def process_job(job_id: str, system_prompt: str, user_prompt_template: str) -> FinalResponse:
         logger.info(f"Starting LLM Orchestration Pipeline for job {job_id}")
         start_time = time.time()

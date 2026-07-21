@@ -101,6 +101,12 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     OPENROUTER_API_KEY: str = ""
 
+    # Summary Settings
+    SUMMARY_MAX_TOKENS: int = 3000
+    SUMMARY_TEMPERATURE: float = 0.2
+    SUMMARY_STYLE: str = "professional"
+    SUMMARY_LANGUAGE: str = "auto"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
