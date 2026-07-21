@@ -88,26 +88,55 @@ class OCRService:
             preprocessed_dir = job_base / "preprocessed_frames"
             
             processed_count = 0
-            # Sequential processing is safer for heavy PaddleOCR models
-            for frame in unique_frames:
-                frame_id = frame["frame_id"]
-                timestamp = frame["timestamp"]
-                # Original filename is the base name from 'path'
-                original_filename = os.path.basename(frame["path"])
+            
+            if settings.ENABLE_PARALLEL_OCR:
+                logger.info(f"Using Parallel OCR (Batch Size: {settings.OCR_BATCH_SIZE})")
+                from concurrent.futures import ThreadPoolExecutor, as_completed
                 
-                preprocessed_path = preprocessed_dir / original_filename
-                
-                if preprocessed_path.exists():
-                    OCRService.process_frame(
-                        frame_id=frame_id,
-                        timestamp=timestamp,
-                        original_filename=original_filename,
-                        image_path=str(preprocessed_path),
-                        dirs=dirs
-                    )
-                    processed_count += 1
-                else:
-                    logger.warning(f"Preprocessed frame missing: {preprocessed_path}")
+                # We can't batch PaddleOCR directly easily without list of imgs, but we can thread it.
+                # However, PaddleOCR might be thread-safe enough for this if CPU bound.
+                def process_single(frame):
+                    frame_id = frame["frame_id"]
+                    timestamp = frame["timestamp"]
+                    original_filename = os.path.basename(frame["path"])
+                    preprocessed_path = preprocessed_dir / original_filename
+                    
+                    if preprocessed_path.exists():
+                        OCRService.process_frame(
+                            frame_id=frame_id,
+                            timestamp=timestamp,
+                            original_filename=original_filename,
+                            image_path=str(preprocessed_path),
+                            dirs=dirs
+                        )
+                        return 1
+                    else:
+                        logger.warning(f"Preprocessed frame missing: {preprocessed_path}")
+                        return 0
+
+                with ThreadPoolExecutor(max_workers=settings.MAX_CONCURRENT_JOBS) as executor:
+                    futures = [executor.submit(process_single, frame) for frame in unique_frames]
+                    for future in as_completed(futures):
+                        processed_count += future.result()
+            else:
+                for frame in unique_frames:
+                    frame_id = frame["frame_id"]
+                    timestamp = frame["timestamp"]
+                    original_filename = os.path.basename(frame["path"])
+                    
+                    preprocessed_path = preprocessed_dir / original_filename
+                    
+                    if preprocessed_path.exists():
+                        OCRService.process_frame(
+                            frame_id=frame_id,
+                            timestamp=timestamp,
+                            original_filename=original_filename,
+                            image_path=str(preprocessed_path),
+                            dirs=dirs
+                        )
+                        processed_count += 1
+                    else:
+                        logger.warning(f"Preprocessed frame missing: {preprocessed_path}")
                     
             logger.info(f"Successfully completed OCR Pipeline for job {job_id}. Processed {processed_count} frames.")
             

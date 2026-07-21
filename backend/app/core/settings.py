@@ -119,6 +119,18 @@ class Settings(BaseSettings):
     CODE_OUTPUT_SOURCE: bool = True
     CODE_LANGUAGE_AUTO_DETECT: bool = True
 
+    # Optimization Settings
+    MAX_CONCURRENT_JOBS: int = 4
+    OCR_BATCH_SIZE: int = 16
+    FRAME_BATCH_SIZE: int = 32
+    ENABLE_PARALLEL_OCR: bool = True
+    ENABLE_ASYNC_PROCESSING: bool = True
+    ENABLE_STREAMING_UPLOAD: bool = True
+    ENABLE_MODEL_SINGLETON: bool = True
+    ENABLE_LAZY_LOADING: bool = True
+    MAX_MEMORY_USAGE_MB: int = 4096
+    LLM_MAX_CONCURRENT_REQUESTS: int = 5
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()

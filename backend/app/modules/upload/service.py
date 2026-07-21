@@ -20,7 +20,7 @@ class UploadService:
         job_id = UploadStorage.generate_job_id()
         
         # 3. Store
-        absolute_path, relative_path, file_size = UploadStorage.save_upload_file(
+        absolute_path, relative_path, file_size = await UploadStorage.save_upload_file(
             file=file, 
             job_id=job_id, 
             sanitized_filename=sanitized_filename

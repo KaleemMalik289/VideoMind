@@ -32,16 +32,18 @@ class UploadStorage:
             raise StorageError(f"Failed to initialize storage for job {job_id}.")
 
     @staticmethod
-    def save_upload_file(file: UploadFile, job_id: str, sanitized_filename: str) -> Tuple[str, str, int]:
-        """Saves the uploaded file to the job's original directory."""
+    async def save_upload_file(file: UploadFile, job_id: str, sanitized_filename: str) -> Tuple[str, str, int]:
+        """Saves the uploaded file to the job's original directory using asynchronous chunk streaming."""
+        import aiofiles
         original_dir = UploadStorage.create_job_directory(job_id)
         file_path = original_dir / sanitized_filename
         
         try:
             # Ensure pointer is at start
-            file.file.seek(0)
-            with open(file_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+            await file.seek(0)
+            async with aiofiles.open(file_path, "wb") as buffer:
+                while chunk := await file.read(1024 * 1024): # 1MB chunks
+                    await buffer.write(chunk)
                 
             file_size = os.path.getsize(file_path)
             logger.info(f"Successfully saved file {sanitized_filename} for job {job_id}.")

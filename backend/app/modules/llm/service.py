@@ -69,9 +69,24 @@ class LLMService:
             processor = ChunkProcessor(provider=provider, raw_dir=dirs["raw"])
             chunk_responses = []
             
-            for chunk in chunks:
-                resp = processor.process(chunk, system_prompt, user_prompt_template)
-                chunk_responses.append(resp)
+            if settings.ENABLE_ASYNC_PROCESSING:
+                logger.info(f"Using Concurrent LLM Processing (Max Requests: {settings.LLM_MAX_CONCURRENT_REQUESTS})")
+                from concurrent.futures import ThreadPoolExecutor, as_completed
+                
+                with ThreadPoolExecutor(max_workers=settings.LLM_MAX_CONCURRENT_REQUESTS) as executor:
+                    futures = {
+                        executor.submit(processor.process, chunk, system_prompt, user_prompt_template): chunk 
+                        for chunk in chunks
+                    }
+                    for future in as_completed(futures):
+                        chunk_responses.append(future.result())
+                        
+                # Sort responses to maintain chronological order
+                chunk_responses.sort(key=lambda x: x.chunk_id)
+            else:
+                for chunk in chunks:
+                    resp = processor.process(chunk, system_prompt, user_prompt_template)
+                    chunk_responses.append(resp)
                 
             # 6. Aggregate
             job_response = ResponseAggregator.aggregate(job_id, chunk_responses, dirs["merged_file"])
