@@ -57,7 +57,10 @@ yt-dlp>=2024.0,<2025.0
 # ===========================
 # Environment & Utilities
 # ===========================
-python-dotenv>=1.0,<2.0
+python-dotenv
+openai
+tenacity
+httpx>=1.0,<2.0
 loguru>=0.7,<1.0
 tqdm>=4.66,<5.0
 rich>=13.7,<14.0

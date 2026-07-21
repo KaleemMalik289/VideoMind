@@ -88,6 +88,19 @@ class Settings(BaseSettings):
     CHUNK_OVERLAP_SECONDS: float = 5.0
     ENABLE_CONTEXT_OVERLAP: bool = True
 
+    # LLM Settings
+    LLM_PROVIDER: str = "groq"
+    LLM_MODEL: str = "llama-3.3-70b-versatile"
+    LLM_TEMPERATURE: float = 0.2
+    LLM_MAX_TOKENS: int = 4096
+    LLM_TOP_P: float = 0.9
+    LLM_MAX_RETRIES: int = 3
+    LLM_TIMEOUT: int = 120
+    GROQ_API_KEY: str = ""
+    OPENAI_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
+    OPENROUTER_API_KEY: str = ""
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
