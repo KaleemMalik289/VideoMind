@@ -32,6 +32,15 @@ class Settings(BaseSettings):
         "video/webm",
     ]
 
+    # Video Processing Settings
+    FRAME_EXTRACTION_RATE: int = 1
+    FRAME_IMAGE_FORMAT: str = ".jpg"
+    FRAME_IMAGE_QUALITY: int = 95
+    FRAME_SIMILARITY_THRESHOLD: float = 0.95
+    SCENE_DETECTION_THRESHOLD: float = 27.0
+    OUTPUT_IMAGE_WIDTH: int = 1280
+    OUTPUT_IMAGE_HEIGHT: int = 720
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
