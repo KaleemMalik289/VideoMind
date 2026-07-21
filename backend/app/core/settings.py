@@ -69,6 +69,14 @@ class Settings(BaseSettings):
     FFMPEG_PATH: str = "ffmpeg"
     FFPROBE_PATH: str = "ffprobe"
 
+    # Whisper Settings
+    WHISPER_MODEL: str = "base"
+    WHISPER_DEVICE: str = "auto"
+    WHISPER_COMPUTE_TYPE: str = "float16"
+    WHISPER_LANGUAGE: str = "auto"
+    WHISPER_BEAM_SIZE: int = 5
+    WHISPER_VAD_FILTER: bool = True
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
