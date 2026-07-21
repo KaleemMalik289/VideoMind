@@ -54,6 +54,13 @@ class Settings(BaseSettings):
     PREPROCESS_CLAHE_CLIP_LIMIT: float = 2.0
     PREPROCESS_OUTPUT_QUALITY: int = 95
 
+    # OCR Settings
+    OCR_LANGUAGE: str = "en"
+    OCR_USE_GPU: bool = True
+    OCR_BATCH_SIZE: int = 8
+    OCR_CONFIDENCE_THRESHOLD: float = 0.30
+    OCR_ENABLE_ANGLE_CLASSIFIER: bool = True
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()
