@@ -57,3 +57,19 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Storage and Output Artifacts
+backend/storage/uploads/*
+backend/storage/processed/*
+backend/storage/outputs/*
+backend/storage/temp/*
+backend/storage/models/*
+backend/storage/logs/*
+
+# Testing and Tooling Caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
